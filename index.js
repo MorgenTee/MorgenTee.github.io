@@ -4,7 +4,7 @@ const pathToPngs = 'https://ipfs.apes.cash/ipfs/QmNXG6TSr2pVgH1NxoJwbAMLscJVFcHa
 
 const oasisAddr = "0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7";
 var nftsFound = [];
-const showMaxNfts = 50;
+const showMaxNfts = 100;
 // accounts = [];
 const divideForsBCH = 10**18;
 const orderTypes = ["Fixed", "Dutch", "English"];
@@ -31,12 +31,17 @@ function getSelectValues(select) {
     return result;
 }
 
-function appendNft(nft) {
+function appendNft(nft, showPicture) {
   document.getElementById("nfts").innerHTML +=
     `<div class="col">
-    <div class="card shadow-sm">
-      <img src="` + pathToPngs + nft.id + `.png">   
-      <div class="card-body">
+    <div class="card shadow-sm">`
+
+  if (true == showPicture) {
+    document.getElementById("nfts").innerHTML += `<img src="` + pathToPngs + nft.id + `.png">`;   
+  } else {
+    document.getElementById("nfts").innerHTML += `<a target="_blank" href="` + pathToPngs + nft.id + `.png">Picture for ` + nft.id + `</a>`;
+  }
+  document.getElementById("nfts").innerHTML += `<div class="card-body">
         <p class="card-text"><a target="_blank" href="https://oasis.cash/token/`+nftCa+`/`+ nft.id +`"><b>`+ nft.id +`</b></a></p>
         <p>Auction Status: <span id="nftstatus-`+ nft.id +`">loading</span></p>
         <span class="badge bg-secondary"><b>Background</b>: `+ nft.traits.Background +`</span>
@@ -139,7 +144,10 @@ async function requestpayment() {
         nfts.forEach(function(nft) {
             if(matchesAllFilters(nft, filters)) {
                 nftsFound.push(nft);
-                if ((!showOnlyForSale) && (showMaxNfts > nftsFound.length))  appendNft(nft);
+                if (!showOnlyForSale) {
+                  if (showMaxNfts >= nftsFound.length) appendNft(nft, true); else appendNft(nft, false);
+                }  
+                
                 oasis.methods
                     .tokenOrderLength(nftCa, nft.id).call().then(function(result, error) {
                         if (error) console.error(error);
@@ -175,7 +183,7 @@ async function requestpayment() {
             }
         })
 
-        document.getElementById("found").innerHTML = `Status: Found `+ nftsFound.length +` nfts -- showing first ` + showMaxNfts + ` matches`;
+        document.getElementById("found").innerHTML = `Status: Found `+ nftsFound.length +` nfts -- showing pictures only for first ` + showMaxNfts + ` matches`;
     })
     .catch(function(error) {
         document.getElementById("found").innerHTML = `Status: Payment error`;

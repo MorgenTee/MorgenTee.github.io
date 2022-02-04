@@ -1,6 +1,9 @@
-accounts = [];
-oasisAddr = "0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7";
 nftCa = "0xC054A7F7866ba73889511c48967be776008eb408";
+pathToPngs = 'https://ipfs.apes.cash/ipfs/QmNXG6TSr2pVgH1NxoJwbAMLscJVFcHaxB3T9bp7MFByz6/';
+
+
+oasisAddr = "0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7";
+accounts = [];
 divideForsBCH = 10**18;
 orderTypes = ["Fixed", "Dutch", "English"];
 hammer = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hammer" viewBox="0 0 16 16"><path d="M9.972 2.508a.5.5 0 0 0-.16-.556l-.178-.129a5.009 5.009 0 0 0-2.076-.783C6.215.862 4.504 1.229 2.84 3.133H1.786a.5.5 0 0 0-.354.147L.146 4.567a.5.5 0 0 0 0 .706l2.571 2.579a.5.5 0 0 0 .708 0l1.286-1.29a.5.5 0 0 0 .146-.353V5.57l8.387 8.873A.5.5 0 0 0 14 14.5l1.5-1.5a.5.5 0 0 0 .017-.689l-9.129-8.63c.747-.456 1.772-.839 3.112-.839a.5.5 0 0 0 .472-.334z"/></svg>`
@@ -30,19 +33,19 @@ function appendNft(nft) {
   document.getElementById("nfts").innerHTML +=
     `<div class="col">
     <div class="card shadow-sm">
-      <img src="`+ nft.image +`">   
+      <img src="` + pathToPngs + nft.id + `.png">   
       <div class="card-body">
-        <p class="card-text"><a target="_blank" href="https://oasis.cash/token/`+nftCa+`/`+ nft.edition +`">`+ nft.name +`</a></p>
-        <p>Auction Status: <span id="nftstatus-`+ nft.edition +`">loading</span></p>
-        <span class="badge bg-secondary">Background: `+ nft.Background +`</span>
-        <span class="badge bg-secondary">Fur: `+ nft.Fur +`</span>
-        <span class="badge bg-secondary">Clothes: `+ nft.Clothes +`</span>
-        <span class="badge bg-secondary">Eyes: `+ nft.Eyes +`</span>
-        <span class="badge bg-secondary">Mouth: `+ nft.Mouth +`</span>
-        <span class="badge bg-secondary">Earring: `+ nft.Earring +`</span>
-        <span class="badge bg-secondary">Hat: `+ nft.Hat +`</span>
-        <span class="badge bg-secondary">Profile: `+ nft.Profile +`</span>
-        <span class="badge bg-secondary">Special: `+ nft.Special +`</span>
+        <p class="card-text"><a target="_blank" href="https://oasis.cash/token/`+nftCa+`/`+ nft.id +`">`+ nft.id +`</a></p>
+        <p>Auction Status: <span id="nftstatus-`+ nft.id +`">loading</span></p>
+        <span class="badge bg-secondary">Background: `+ nft.traits.Background +`</span>
+        <span class="badge bg-secondary">Fur: `+ nft.traits.Fur +`</span>
+        <span class="badge bg-secondary">Clothes: `+ nft.traits.Clothes +`</span>
+        <span class="badge bg-secondary">Eyes: `+ nft.traits.Eyes +`</span>
+        <span class="badge bg-secondary">Mouth: `+ nft.traits.Mouth +`</span>
+        <span class="badge bg-secondary">Earring: `+ nft.traits.Earring +`</span>
+        <span class="badge bg-secondary">Hat: `+ nft.traits.Hat +`</span>
+        <span class="badge bg-secondary">Profile: `+ nft.traits.Profile +`</span>
+        <span class="badge bg-secondary">Special: `+ nft.traits.Special +`</span>
         </div>
       </div>
     </div>
@@ -73,7 +76,7 @@ if (window.ethereum) {
           currentBlock = parseInt(result);
       });
     } else {
-      document.getElementById("found").innerHTML = `Payment failed! MetaMask not found!`;
+      document.getElementById("found").innerHTML = `MetaMask not found!`;
       console.log('Please install MetaMask!');
     }
   }
@@ -83,7 +86,7 @@ function matchesAllFilters(nft, filters) {
     for (const [key, values] of Object.entries(filters)) {
         if(values.length == 0)
             continue
-        else if(values.indexOf(nft[key]) == -1)
+        else if(values.indexOf(nft["traits"][key]) == -1)
             return false;
     }
     return true;
@@ -129,11 +132,11 @@ async function requestpayment() {
                 found++;
                 if (!showOnlyForSale) appendNft(nft);
                 oasis.methods
-                    .tokenOrderLength(nftCa, nft.edition).call().then(function(result, error) {
+                    .tokenOrderLength(nftCa, nft.id).call().then(function(result, error) {
                         if (error) console.error(error);
                         var orderIndex = parseInt(result)-1;
                         if (orderIndex >= 0) {
-                            oasis.methods.orderIdByToken(nftCa, nft.edition, orderIndex).call().then(function(result, error) {
+                            oasis.methods.orderIdByToken(nftCa, nft.id, orderIndex).call().then(function(result, error) {
                                 if (error) console.error(error);
                                 var orderId = result;
                                 oasis.methods.orderInfo(orderId).call().then(function(result, error) {
@@ -149,15 +152,15 @@ async function requestpayment() {
                                         price /= divideForsBCH;
                                         if (showOnlyForSale) appendNft(nft);
                                         var auctionText = orderType == 1 ? hammer +" "+ orderTypes[orderType] : hammer +" "+ orderTypes[orderType]+'@'+ price;
-                                        document.getElementById("nftstatus-"+ nft.edition).innerHTML = auctionText;
+                                        document.getElementById("nftstatus-"+ nft.id).innerHTML = auctionText;
                                         document.getElementById("forsale").innerHTML = `(`+ (++forsale) +` for sale)`;
                                     } else {
-                                        if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.edition).innerHTML = "Not for Sale."
+                                        if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
                                     }
                                 });
                             })
                         } else {
-                            if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.edition).innerHTML = "Not for Sale."
+                            if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
                         }
                     });
             }

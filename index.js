@@ -100,7 +100,6 @@ async function requestpayment() {
     const txHash = await ethereum.request({
         method: 'eth_sendTransaction',
         params: [{
-            nonce: '0x00',
             to: '0x88Cbd6227F3B33EDCa69aee5cA7527Fa4B12Ef49',
             from: ethereum.selectedAddress,
             value: '0x0000b60000000000',

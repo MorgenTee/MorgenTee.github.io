@@ -1,12 +1,14 @@
-nftCa = "0xC054A7F7866ba73889511c48967be776008eb408";
-pathToPngs = 'https://ipfs.apes.cash/ipfs/QmNXG6TSr2pVgH1NxoJwbAMLscJVFcHaxB3T9bp7MFByz6/';
+const nftCa = "0xC054A7F7866ba73889511c48967be776008eb408";
+const pathToPngs = 'https://ipfs.apes.cash/ipfs/QmNXG6TSr2pVgH1NxoJwbAMLscJVFcHaxB3T9bp7MFByz6/';
 
 
-oasisAddr = "0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7";
-accounts = [];
-divideForsBCH = 10**18;
-orderTypes = ["Fixed", "Dutch", "English"];
-hammer = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hammer" viewBox="0 0 16 16"><path d="M9.972 2.508a.5.5 0 0 0-.16-.556l-.178-.129a5.009 5.009 0 0 0-2.076-.783C6.215.862 4.504 1.229 2.84 3.133H1.786a.5.5 0 0 0-.354.147L.146 4.567a.5.5 0 0 0 0 .706l2.571 2.579a.5.5 0 0 0 .708 0l1.286-1.29a.5.5 0 0 0 .146-.353V5.57l8.387 8.873A.5.5 0 0 0 14 14.5l1.5-1.5a.5.5 0 0 0 .017-.689l-9.129-8.63c.747-.456 1.772-.839 3.112-.839a.5.5 0 0 0 .472-.334z"/></svg>`
+const oasisAddr = "0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7";
+var nftsFound = [];
+const showMaxNfts = 50;
+// accounts = [];
+const divideForsBCH = 10**18;
+const orderTypes = ["Fixed", "Dutch", "English"];
+const hammer = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hammer" viewBox="0 0 16 16"><path d="M9.972 2.508a.5.5 0 0 0-.16-.556l-.178-.129a5.009 5.009 0 0 0-2.076-.783C6.215.862 4.504 1.229 2.84 3.133H1.786a.5.5 0 0 0-.354.147L.146 4.567a.5.5 0 0 0 0 .706l2.571 2.579a.5.5 0 0 0 .708 0l1.286-1.29a.5.5 0 0 0 .146-.353V5.57l8.387 8.873A.5.5 0 0 0 14 14.5l1.5-1.5a.5.5 0 0 0 .017-.689l-9.129-8.63c.747-.456 1.772-.839 3.112-.839a.5.5 0 0 0 .472-.334z"/></svg>`
 // https://stackoverflow.com/questions/5866169/how-to-get-all-selected-values-of-a-multiple-select-box
 // Return an array of the selected opion values
 // select is an HTML select element
@@ -35,17 +37,18 @@ function appendNft(nft) {
     <div class="card shadow-sm">
       <img src="` + pathToPngs + nft.id + `.png">   
       <div class="card-body">
-        <p class="card-text"><a target="_blank" href="https://oasis.cash/token/`+nftCa+`/`+ nft.id +`">`+ nft.id +`</a></p>
+        <p class="card-text"><a target="_blank" href="https://oasis.cash/token/`+nftCa+`/`+ nft.id +`"><b>`+ nft.id +`</b></a></p>
         <p>Auction Status: <span id="nftstatus-`+ nft.id +`">loading</span></p>
-        <span class="badge bg-secondary">Background: `+ nft.traits.Background +`</span>
-        <span class="badge bg-secondary">Fur: `+ nft.traits.Fur +`</span>
-        <span class="badge bg-secondary">Clothes: `+ nft.traits.Clothes +`</span>
-        <span class="badge bg-secondary">Eyes: `+ nft.traits.Eyes +`</span>
-        <span class="badge bg-secondary">Mouth: `+ nft.traits.Mouth +`</span>
-        <span class="badge bg-secondary">Earring: `+ nft.traits.Earring +`</span>
-        <span class="badge bg-secondary">Hat: `+ nft.traits.Hat +`</span>
-        <span class="badge bg-secondary">Profile: `+ nft.traits.Profile +`</span>
-        <span class="badge bg-secondary">Special: `+ nft.traits.Special +`</span>
+        <span class="badge bg-secondary"><b>Background</b>: `+ nft.traits.Background +`</span>
+        <span class="badge bg-secondary"><b>Fur</b>: `+ nft.traits.Fur +`</span>
+        <span class="badge bg-secondary"><b>Clothes</b>: `+ nft.traits.Clothes +`</span>
+        <span class="badge bg-secondary"><b>Eyes</b>: `+ nft.traits.Eyes +`</span>
+        <span class="badge bg-secondary"><b>Mouth</b>: `+ nft.traits.Mouth +`</span>
+        <span class="badge bg-secondary"><b>Earring</b>: `+ nft.traits.Earring +`</span>
+        <span class="badge bg-secondary"><b>Hat</b>: `+ nft.traits.Hat +`</span>
+        <span class="badge bg-secondary"><b>Profile</b>: `+ nft.traits.Profile +`</span>
+        <span class="badge bg-secondary"><b>Special</b>: `+ nft.traits.Special +`</span>
+        <span class="badge bg-secondary"><b>trait_count</b>: `+ nft.traits.trait_count +`</span>
         </div>
       </div>
     </div>
@@ -83,12 +86,16 @@ if (window.ethereum) {
 
   
 function matchesAllFilters(nft, filters) {
-    for (const [key, values] of Object.entries(filters)) {
-        if(values.length == 0)
-            continue
-        else if(values.indexOf(nft["traits"][key]) == -1)
+    for (const [category, traits] of Object.entries(filters)) {
+        if(0 == traits.length) {
+            // console.log("No filter on " + category + " specified");
+            continue;
+        } else if(-1 == traits.indexOf(nft["traits"][category])) {
+            // console.log("Specified traits for " + category + " not in nft " + nft.id +". Trait is " + nft["traits"][category]);
             return false;
+        }
     }
+    // console.log(nft.id + " matches all filters");
     return true;
 }
 
@@ -122,15 +129,17 @@ async function requestpayment() {
         filters.Hat = getSelectValues(document.getElementById("Hat"));
         filters.Profile = getSelectValues(document.getElementById("Profile"));
         filters.Special = getSelectValues(document.getElementById("Special"));
+        filters.trait_count = getSelectValues(document.getElementById("trait_count"));
+
 
         document.getElementById("nfts").innerHTML = "";
-        var found = 0;
+        nftsFound = [];
         var forsale = 0;
 
         nfts.forEach(function(nft) {
             if(matchesAllFilters(nft, filters)) {
-                found++;
-                if (!showOnlyForSale) appendNft(nft);
+                nftsFound.push(nft);
+                if ((!showOnlyForSale) && (showMaxNfts > nftsFound.length))  appendNft(nft);
                 oasis.methods
                     .tokenOrderLength(nftCa, nft.id).call().then(function(result, error) {
                         if (error) console.error(error);
@@ -162,11 +171,11 @@ async function requestpayment() {
                         } else {
                             if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
                         }
-                    });
+                    });  // oasis stuff
             }
         })
 
-        document.getElementById("found").innerHTML = `Status: Found `+ found +` nfts`;
+        document.getElementById("found").innerHTML = `Status: Found `+ nftsFound.length +` nfts -- showing first ` + showMaxNfts + ` matches`;
     })
     .catch(function(error) {
         document.getElementById("found").innerHTML = `Status: Payment error`;

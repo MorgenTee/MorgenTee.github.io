@@ -108,7 +108,7 @@ async function requestpayment() {
 
     var showOnlyForSale = document.getElementById("onlyForSale").checked;
 
-    document.getElementById("found").innerHTML = `Status: Processing payment...`;
+    document.getElementById("found").innerHTML = `Status: Processing payment... and preparing results -- this may take a while if you have many matches...`;
     document.getElementById("forsale").innerHTML = ``;
     document.getElementById("nfts").innerHTML = "";
 
@@ -148,38 +148,41 @@ async function requestpayment() {
                   if (showMaxNfts >= nftsFound.length) appendNft(nft, true); else appendNft(nft, false);
                 }  
                 
-                oasis.methods
-                    .tokenOrderLength(nftCa, nft.id).call().then(function(result, error) {
-                        if (error) console.error(error);
-                        var orderIndex = parseInt(result)-1;
-                        if (orderIndex >= 0) {
-                            oasis.methods.orderIdByToken(nftCa, nft.id, orderIndex).call().then(function(result, error) {
-                                if (error) console.error(error);
-                                var orderId = result;
-                                oasis.methods.orderInfo(orderId).call().then(function(result, error) {
-                                    if (error) console.error(error);
-                                    console.log(nft);
-                                    console.log(result);
-                                    var endBlock = parseInt(result.endBlock);
-                                    if(!result.isSold && !result.isCancelled && currentBlock < endBlock) {
-                                        var orderType = parseInt(result.orderType);
-                                        var startPrice = parseInt(result.startPrice);
-                                        var lastBidPrice = parseInt(result.lastBidPrice);
-                                        var price = lastBidPrice > 0 ? lastBidPrice : startPrice;
-                                        price /= divideForsBCH;
-                                        if (showOnlyForSale) appendNft(nft);
-                                        var auctionText = orderType == 1 ? hammer +" "+ orderTypes[orderType] : hammer +" "+ orderTypes[orderType]+'@'+ price;
-                                        document.getElementById("nftstatus-"+ nft.id).innerHTML = auctionText;
-                                        document.getElementById("forsale").innerHTML = `(`+ (++forsale) +` for sale)`;
-                                    } else {
-                                        if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
-                                    }
-                                });
-                            })
-                        } else {
-                            if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
-                        }
-                    });  // oasis stuff
+                if (showMaxNfts >= nftsFound.length) {
+                  // only check oasis for the first matches
+                  oasis.methods
+                  .tokenOrderLength(nftCa, nft.id).call().then(function(result, error) {
+                      if (error) console.error(error);
+                      var orderIndex = parseInt(result)-1;
+                      if (orderIndex >= 0) {
+                          oasis.methods.orderIdByToken(nftCa, nft.id, orderIndex).call().then(function(result, error) {
+                              if (error) console.error(error);
+                              var orderId = result;
+                              oasis.methods.orderInfo(orderId).call().then(function(result, error) {
+                                  if (error) console.error(error);
+                                  console.log(nft);
+                                  console.log(result);
+                                  var endBlock = parseInt(result.endBlock);
+                                  if(!result.isSold && !result.isCancelled && currentBlock < endBlock) {
+                                      var orderType = parseInt(result.orderType);
+                                      var startPrice = parseInt(result.startPrice);
+                                      var lastBidPrice = parseInt(result.lastBidPrice);
+                                      var price = lastBidPrice > 0 ? lastBidPrice : startPrice;
+                                      price /= divideForsBCH;
+                                      if (showOnlyForSale) appendNft(nft);
+                                      var auctionText = orderType == 1 ? hammer +" "+ orderTypes[orderType] : hammer +" "+ orderTypes[orderType]+'@'+ price;
+                                      document.getElementById("nftstatus-"+ nft.id).innerHTML = auctionText;
+                                      document.getElementById("forsale").innerHTML = `(`+ (++forsale) +` for sale)`;
+                                  } else {
+                                      if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
+                                  }
+                              });
+                          })
+                      } else {
+                          if (!showOnlyForSale) document.getElementById("nftstatus-"+ nft.id).innerHTML = "Not for Sale."
+                      }
+                  });  // oasis stuff
+                } // don't check oasis if we have too many matches
             }
         })
 

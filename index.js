@@ -56,8 +56,7 @@ function appendNft(nft, showPicture) {
         <span class="badge bg-secondary"><b>trait_count</b>: `+ nft.traits.trait_count +`</span>
         </div>
       </div>
-    </div>
-  </div>`
+    </div>`
 }
 
 

@@ -68,40 +68,39 @@
         <p class="lead text-muted">Connect MetaMask and select how many reward tokens you want to buy. </p>
         <p class="lead">Note that the purchase cannot be undone.</p>
         <p class="lead">CA: 0x855E56ADD0F10B6b15bAcC1c0Dda75C269295244</p>
+        <button type="button" class="btn btn-primary my-2" onclick="addTokenToMetaMask()">Add NFTC to MetaMask</button>
       </div>
-    </div>
-
+    </div>  
    
     <div class="input-group mb-3">
      
       <div class="input-group">
       <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 1000)'>1000</button>
         <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 2500)'>2500</button>
         <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 5000)'>5000</button>
         <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 7500)'>7500</button>
         <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 10000)'>10000</button>
         <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 20000)'>20000</button>
       </div>
-      <input id="tokensToBuy" type="text" class="form-control" placeholder="" onchange="showCost()">
+      <input id="tokensToBuy" type="text" class="form-control" placeholder="10000" onchange="showCost()">
     </div>
-
   </div>
 
     <div class="row">
-      <div class="col-lg-12 col-md-12 mx-auto">
+      <div class="col-lg-6 col-md-12 mx-auto">
         <button type="button" class="btn btn-primary my-2" onclick="requestpayment()">Buy Tokens</button>
       </div>
     </div>
     
     <div class="row">
-      <div class="col-lg-12 col-md-12 mx-auto">
-        <span id="cost">Cost: 0 BCH</span> 
+      <div class="col-lg-12 col-md-12 mx-auto mt-2 mb-2">
+        <span id="cost">Cost: <b>0.004664 BCH</b></span> 
+      </div>
+      <div class="col-lg-12 col-md-12 mx-auto mt-2 mb-2">
+        <span id="supply"></span> 
       </div>
     </div>
   </section>
-
-
 
 </main>
 
@@ -110,7 +109,6 @@
     <p class="float-end mb-1">
       <a href="#">Back to top</a>
     </p>
-    <p class="mb-1">Template by &copy; Bootstrap</p>
   </div>
 </footer
 >

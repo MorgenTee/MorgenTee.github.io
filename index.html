@@ -1,123 +1,138 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="MoreGainStrategies">
-    <title>SmartBCH Presale</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="MoreGainStrategies">
+  <title>SmartBCH Presale</title>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
       }
+    }
+  </style>
+</head>
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
+<body>
 
-    
-  </head>
-  <body>
-    
-<header>
-  <div class="collapse bg-dark" id="navbarHeader">
-    <div class="container">
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">SmartLaunch -- The Smart Launchpad for Tokens on SmartBch</h4>
+            <p>NFTC -- The reward token of the NFT Club on SmartBch </p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li><a href="https://t.me/NFTClubOfficial" class="text-white">Find The NFT Club on Telegram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <strong>SmartLaunch presents: The NFTC Token Presale on SmartBCH</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
+          <h1 class="fw-light"><strong><span style="color: rgb(40, 50, 78);">The NFTC Token Presale on
+                SmartBCH</span></strong></h1>
+
+          <h2 class="lead" style="line-height: 2;"><span style="color: rgb(40, 50, 78);"><strong><span
+                  style="font-size: 24px;">Instructions</span></strong></span></h2>
+
+          <h4 class="lead text-muted"><span style="color: rgb(40, 50, 78);">Connect MetaMask and select how many
+              reward tokens you want to buy.</span></h4>
+
+          <h4 class="lead"><span style="color: rgb(40, 50, 78);">Note that the purchase cannot be undone.</span></h4>
+          <pre
+            class="lead"><span style="color: rgb(71, 85, 119);"></span>CA: 0x855E56ADD0F10B6b15bAcC1c0Dda75C269295244</span> <button type="button" class="btn btn-link my-2" onclick="addTokenToMetaMask()"><img src="icons/MetaMask_Fox.svg" style="width: 28px;" alt="Add to MetaMask"></button></pre>
+            <pre
+            class="lead"><span id="supply" style="color: rgb(71, 85, 119);"><strong>0 / 2144082 NFTC</strong> remaining</span><button type="button" class="btn btn-link my-2" onclick="updateSupply()"><img src="icons/arrow-clockwise.svg" style="width: 20px;" alt="Refresh"></button></pre>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-8 col-sm-10 mx-auto mb-3">
+        <div class="input-group col-lg-6 col-md-8 col-sm-10 mx-auto">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="button"
+              onclick='updateText("tokensToBuy", 2500)'>2500</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick='updateText("tokensToBuy", 5000)'>5000</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick='updateText("tokensToBuy", 7500)'>7500</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick='updateText("tokensToBuy", 10000)'>10000</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick='updateText("tokensToBuy", 20000)'>20000</button>
+          </div>
+          <input id="tokensToBuy" type="text" class="form-control" value="10000000" onchange="showCost()">
+        </div>
+      </div>
+
+      <span class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <button id="buyButton" type="button" class="btn btn-primary my-2 btn-large" disabled="true" onclick="requestpayment()">Buy
+            Tokens</button>
+        </div>
+      </div>
+
       <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">This is a presale tool for The NFT Club</h4>
-          <p>You can buy the reward token at a discount. </p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="https://t.me/NFTClubOfficial" class="text-white">Find The NFT Club on Telegram</a></li>
-          </ul>
-        </div>
+        <pre
+          class="col-lg-12 col-md-12 mx-auto mt-3 mb-2"><span class="border" id="cost">Cost: <strong>0.004664 BCH</strong></span></pre>
       </div>
-    </div>
-  </div>
-  <div class="navbar navbar-dark bg-dark shadow-sm">
+      </div>
+    </section>
+
+  </main>
+
+ 
+
+
+  <footer class="text-muted py-5">
     <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <strong>The NFT Club Reward Token Presale on SmartBCH</strong>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <p class="float-end mb-1">
+        <a href="#">Back to top</a>
+      </p>
     </div>
-  </div>
-</header>
-
-<main>
-  <section class="text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">The NFT Club Reward Token Presale on SmartBCH</h1>
-        <p class="lead">Instructions</p>
-        <p class="lead text-muted">Connect MetaMask and select how many reward tokens you want to buy. </p>
-        <p class="lead">Note that the purchase cannot be undone.</p>
-        <p class="lead">CA: 0x855E56ADD0F10B6b15bAcC1c0Dda75C269295244</p>
-        <button type="button" class="btn btn-primary my-2" onclick="addTokenToMetaMask()">Add NFTC to MetaMask</button>
-      </div>
-    </div>  
-   
-    <div class="input-group mb-3">
-     
-      <div class="input-group">
-      <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 2500)'>2500</button>
-        <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 5000)'>5000</button>
-        <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 7500)'>7500</button>
-        <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 10000)'>10000</button>
-        <button class="btn btn-outline-secondary" type="button" onclick='updateText("tokensToBuy", 20000)'>20000</button>
-      </div>
-      <input id="tokensToBuy" type="text" class="form-control" placeholder="10000" onchange="showCost()">
-    </div>
-  </div>
-
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mx-auto">
-        <button type="button" class="btn btn-primary my-2" onclick="requestpayment()">Buy Tokens</button>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col-lg-12 col-md-12 mx-auto mt-2 mb-2">
-        <span id="cost">Cost: <b>0.004664 BCH</b></span> 
-      </div>
-      <div class="col-lg-12 col-md-12 mx-auto mt-2 mb-2">
-        <span id="supply"></span> 
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="text-muted py-5">
-  <div class="container">
-    <p class="float-end mb-1">
-      <a href="#">Back to top</a>
-    </p>
-  </div>
-</footer
->
+  </footer>
   <script src="bootstrap.bundle.min.js" integrity="" crossorigin="anonymous"></script>
   <script src="web3.min.js"></script>
   <script src='bignumber.js'></script>
   <script src="TokenSale.js"></script>
   <script src="jquery-3.6.0.slim.min.js"></script>
   <script src="index.js"></script>
-      
-  </body>
+
+</body>
+
 </html>

@@ -7,6 +7,7 @@ const tokenSaleAddress = '0x81aBde1AbA337563A062f6890Cda05Ef1F146Cad';
 
 const presaleSupply = 2144082; // 2.14... million
 var tokensRemaining = presaleSupply;
+const maxTokensPerTx = 21441;
 
 // const pricePerWei = 46640000000000; // 0.00004664 BCH -- real presale price
 const pricePerWei = 466400000000; // 0.0000 00 4664 BCH -- testnet presale price
@@ -39,7 +40,8 @@ async function handleEthereum() {
 
     TokenSale = new web3.eth.Contract(TokenSale_json_interface["abi"], tokenSaleAddress);
 
-    updateSupply();
+    await updateSupply();
+    showCost();
 
     // web3.eth.getBlockNumber().then(function (result) {
     //   currentBlock = parseInt(result);
@@ -74,9 +76,9 @@ async function addTokenToMetaMask() {
     });
 
     if (wasAdded) {
-      console.log('Thanks for your interest!');
+      console.log('The token has been added');
     } else {
-      console.log('Your loss!');
+      console.log('The token has NOT been to Metamask');
     }
   } catch (error) {
     console.log(error);
@@ -100,18 +102,30 @@ function showCost() {
   console.log(tokensToBuyString);
   let tokensToBuy = 0;
   if ("" !== tokensToBuyString) tokensToBuy = parseInt(tokensToBuyString);
-  const nTokensToBuy = Math.min(tokensToBuy, tokensRemaining);
+  const nTokensToBuy = Math.min(tokensToBuy, tokensRemaining, maxTokensPerTx);
   $("#tokensToBuy").val(nTokensToBuy);
   let cost = Math.round(nTokensToBuy * pricePerWei * 10 ** -12) * 10 ** -6; // get rid of stupid numbers at the end of the value with round
-  $("#cost").html('Cost: <b>' + cost + ' BCH</b>');
+  $("#cost").html('Cost: <strong>' + cost + ' BCH</strong>');
   return nTokensToBuy;
 }
 
 async function updateSupply() {
   const tokensSold = await TokenSale.methods.tokensSold().call();
   tokensRemaining = presaleSupply - tokensSold;
-  if (0 >= tokensRemaining) { $('#buyButton').prop('disabled', true); } else {$('#buyButton').prop('enabled', true);}
+
+  $("#tokensToBuy").val(tokensRemaining);
   $("#supply").html(tokensRemaining + ' / ' + presaleSupply + ' tokens remaining');
+  
+  if (0 < tokensRemaining) {
+    $('#buyButton').prop('enabled', true);
+    $('#buyButton').text('Buy Tokens');
+    $('#maxTokensPerTxText').text('You can buy up to ' + Math.min(tokensRemaining, maxTokensPerTx) + ' NFTC per transaction.');
+  } else {
+    $('#buyButton').prop('disabled', true);
+    $('#buyButton').text('No Purchase Possible');
+    $('#maxTokensPerTxText').html('<strong>The presale is over. All NFTC have already been sold!</strong>');
+    $('#maxTokensPerTxText').css("color", "red");
+  }
 }
 
 

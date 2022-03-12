@@ -36,8 +36,8 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-8 col-md-7 py-4">
-            <h4 class="text-white">SmartLaunch -- The Smart Launchpad for Tokens on SmartBch</h4>
-            <p>NFTC -- The reward token of the NFT Club on SmartBch </p>
+            <h2 class="text-white">SmartLaunch -- The Smart Launchpad for Tokens on SmartBch</h4>
+              <p>NFTC -- The reward token of the NFT Club on SmartBch </p>
           </div>
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
@@ -63,22 +63,24 @@
 
   <main>
     <section class="text-center container">
-      <div class="row py-lg-5">
+      <div class="row py-5">
         <div class="col-lg-10 col-md-10 col-sm-12 mx-auto">
-          <h1 class="fw-light"><strong><span style="color: rgb(40, 50, 78);">The NFTC Token Presale on
+          <h1 class="fw-light"><strong><span >The NFTC Token Presale on
                 SmartBCH</span></strong></h1>
 
-          <h2 class="lead" style="line-height: 2;"><span style="color: rgb(40, 50, 78);"><strong><span
+          <h2 class="lead text-muted" style="line-height: 2;"><span ><strong><span
                   style="font-size: 24px;">Instructions</span></strong></span></h2>
 
-          <h4 class="lead text-muted"><span style="color: rgb(40, 50, 78);">Connect MetaMask and select how many
+          <h4 class="lead text-muted"><span >Connect MetaMask and select how many
               reward tokens you want to buy.</span></h4>
 
-          <h4 class="lead"><span style="color: rgb(40, 50, 78);">Note that the purchase cannot be undone.</span></h4>
+          <h4 class="lead text-muted"><span id="maxTokensPerTxText">You can buy up to 21441 NFTC per transaction.</span></h4>
+
+          <h4 class="lead"><span >Note that the purchase cannot be undone.</span></h4>
           <pre
-            class="lead"><span style="color: rgb(71, 85, 119);"></span>CA: 0x855E56ADD0F10B6b15bAcC1c0Dda75C269295244</span> <button type="button" class="btn btn-link my-2" onclick="addTokenToMetaMask()"><img src="icons/MetaMask_Fox.svg" style="width: 28px;" alt="Add to MetaMask"></button></pre>
-            <pre
-            class="lead"><span id="supply" style="color: rgb(71, 85, 119);"><strong>0 / 2144082 NFTC</strong> remaining</span><button type="button" class="btn btn-link my-2" onclick="updateSupply()"><img src="icons/arrow-clockwise.svg" style="width: 20px;" alt="Refresh"></button></pre>
+            class="lead text-muted"><span ></span>CA: 0x855E56ADD0F10B6b15bAcC1c0Dda75C269295244</span> <button type="button" class="btn btn-link my-2" onclick="addTokenToMetaMask()"><img src="icons/MetaMask_Fox.svg" style="width: 28px;" alt="Add to MetaMask"></button></pre>
+          <pre
+            class="lead"><span id="supply" ><strong>0 / 2144082 NFTC</strong> remaining</span><button type="button" class="btn btn-link my-2" onclick="updateSupply()"><img src="icons/arrow-clockwise.svg" style="width: 20px;" alt="Refresh"></button></pre>
         </div>
       </div>
 
@@ -102,21 +104,22 @@
 
       <span class="row">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <button id="buyButton" type="button" class="btn btn-primary my-2 btn-large" disabled="true" onclick="requestpayment()">Buy
+          <button id="buyButton" type="button" class="btn btn-primary my-2 btn-large" disabled="true"
+            onclick="requestpayment()">Buy
             Tokens</button>
         </div>
-      </div>
+        </div>
 
-      <div class="row">
-        <pre
-          class="col-lg-12 col-md-12 mx-auto mt-3 mb-2"><span class="border" id="cost">Cost: <strong>0.004664 BCH</strong></span></pre>
-      </div>
-      </div>
+        <div class="row">
+          <pre
+            class="col-lg-12 col-md-12 mx-auto mt-3 mb-2"><span class="border" id="cost">Cost: <strong>0.004664 BCH</strong></span></pre>
+        </div>
+        </div>
     </section>
 
   </main>
 
- 
+
 
 
   <footer class="text-muted py-5">

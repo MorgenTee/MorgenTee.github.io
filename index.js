@@ -114,7 +114,7 @@ async function updateSupply() {
   const tokensSold = await TokenSale.methods.tokensSold().call();
   tokensRemaining = presaleSupply - tokensSold;
 
-  $("#tokensToBuy").val(tokensRemaining);
+  // $("#tokensToBuy").val(tokensRemaining);
   $("#supply").html(tokensRemaining + ' / ' + presaleSupply + ' tokens remaining');
   
   if (0 < tokensRemaining) {

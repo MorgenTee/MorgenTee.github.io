@@ -1,8 +1,8 @@
 // Presale setup
 // smartbchtestnet
 const tokenSymbol = 'NFTC';
-const tokenAddress = '0x855E56ADD0F10B6b15bAcC1c0Dda75C269295244';
-const tokenSaleAddress = '0x81aBde1AbA337563A062f6890Cda05Ef1F146Cad';
+const tokenAddress = '0x6eED7e1F219d6436dCfa0860FD9b91363a9de37A';
+const tokenSaleAddress = '0xC995199DC53922caCE4f6ac14A476eF8c9429387';
 
 
 const presaleSupply = 2144082; // 2.14... million

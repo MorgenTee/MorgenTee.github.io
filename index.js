@@ -102,8 +102,8 @@ function showCost() {
   console.log(tokensToBuyString);
   let tokensToBuy = 0;
   if ("" !== tokensToBuyString) tokensToBuy = parseInt(tokensToBuyString);
-  const nTokensToBuy = Math.min(tokensToBuy, tokensRemaining, maxTokensPerTx);
-  if (100 < tokensToBuy) tokensToBuy = 100;
+  var nTokensToBuy = Math.min(tokensToBuy, tokensRemaining, maxTokensPerTx);
+  if (100 < nTokensToBuy) nTokensToBuy = 100;
   $("#tokensToBuy").val(nTokensToBuy);
   let cost = Math.round(nTokensToBuy * pricePerWei * 10 ** -12) * 10 ** -6; // get rid of stupid numbers at the end of the value with round
   $("#cost").html('Cost: <strong>' + cost + ' BCH</strong>');

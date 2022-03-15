@@ -117,7 +117,7 @@ async function updateSupply() {
   $("#supply").html(tokensRemaining + ' / ' + presaleSupply + ' tokens remaining');
   
   if (0 < tokensRemaining) {
-    $('#buyButton').prop('enabled', true);
+    $('#buyButton').prop('disabled', false);
     $('#buyButton').text('Buy Tokens');
     $('#maxTokensPerTxText').text('You can buy up to ' + Math.min(tokensRemaining, maxTokensPerTx) + ' NFTC per transaction.');
   } else {

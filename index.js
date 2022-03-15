@@ -8,6 +8,7 @@ const tokenSaleAddress = '0xC995199DC53922caCE4f6ac14A476eF8c9429387';
 const presaleSupply = 2144082; // 2.14... million
 var tokensRemaining = presaleSupply;
 const maxTokensPerTx = 21441;
+const minTokensPerTx = 100;
 
 // const pricePerWei = 46640000000000; // 0.00004664 BCH -- real presale price
 const pricePerWei = 466400000000; // 0.0000 00 4664 BCH -- testnet presale price
@@ -103,7 +104,8 @@ function showCost() {
   let tokensToBuy = 0;
   if ("" !== tokensToBuyString) tokensToBuy = parseInt(tokensToBuyString);
   var nTokensToBuy = Math.min(tokensToBuy, tokensRemaining, maxTokensPerTx);
-  if (100 > nTokensToBuy) nTokensToBuy = 100;
+  if ((minTokensPerTx < tokensRemaining) && (minTokensPerTx > nTokensToBuy)) { nTokensToBuy = minTokensPerTx; }
+  if ((minTokensPerTx > tokensRemaining) && (1 > nTokensToBuy)) { nTokensToBuy = 1; }
   $("#tokensToBuy").val(nTokensToBuy);
   let cost = Math.round(nTokensToBuy * pricePerWei * 10 ** -12) * 10 ** -6; // get rid of stupid numbers at the end of the value with round
   $("#cost").html('Cost: <strong>' + cost + ' BCH</strong>');
@@ -116,7 +118,7 @@ async function updateSupply() {
   showCost();
 
   $("#supply").html(tokensRemaining + ' / ' + presaleSupply + ' tokens remaining');
-  
+
   if (0 < tokensRemaining) {
     $('#buyButton').prop('disabled', false);
     $('#buyButton').text('Buy Tokens');

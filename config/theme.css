@@ -1,0 +1,25 @@
+:root {
+  --site-bg: hsla(247, 92%, 10%, 0.701); 
+  --box-bg: #0c122778;
+  --buttons: #a14848;
+  --button-shadow: #4e0707;
+  --normal-text: #ffffff;
+  --big-text: #ffffff;
+  --muted-text: #bbbaba;
+  --button-text: #ffffff;
+  --highlighted-text: #a14848;
+}
+
+
+.social img {
+  width: 32px;
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.countdown {
+  margin-top: 1em;
+  color: white;
+  font-size: 2em;
+}
+

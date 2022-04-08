@@ -1,11 +1,21 @@
 {
-  "short_name": "SmartLaunch",
-  "name": "SmartLaunch -- The smart way to launch your project on SmartBch",
+  "short_name": "Kensho by the NFT Club",
+  "name": "The Kensho NFT collection on SmartBch by the NFT Club",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
